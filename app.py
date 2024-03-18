@@ -20,3 +20,4 @@ number_of_trials=st.slider('¿Número de intentos?',1,1000,10)
 start_button=st.button('Lanzar')
 if start_button: 
     st.write(f'Experimento con {number_of_trials} lanzamientos en curso.')
+    mean=toss_coin(number_of_trials)
