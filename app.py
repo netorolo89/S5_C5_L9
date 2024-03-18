@@ -1,6 +1,11 @@
 import streamlit as st
 import scipy.stats
 import time
+import pandas as pd
+if 'experiment_no' not in st.session_state:
+    st.session_state['experiment_no']=0
+if 'df_experiment_results' not in st.session_state:
+    st.session_state['df_experiment_results']=pd.DataFrame(columns=['no','iteraciones','media')
 st.header('Lanzar una moneda')
 chart=st.line_chart([0.5])
 def toss_coin(n):
@@ -20,4 +25,8 @@ number_of_trials=st.slider('¿Número de intentos?',1,1000,10)
 start_button=st.button('Lanzar')
 if start_button: 
     st.write(f'Experimento con {number_of_trials} lanzamientos en curso.')
+    st.session_state['experiment_no']+=1
     mean=toss_coin(number_of_trials)
+    st.session_state['df_experiment_results']=pd.concat([st.session_state['df_experiment_results'],pd.DataFrame(data=[[st.session_state['experiment_no'],number_of_trials,mean]],columns=['no','iterations','mean'])],axis=0)
+    st.session_state['df_experiment_results']=\\st.session_state['df_experiment_results'].reset_index(drop=True)
+st.write(st.session_state['df_experiment_results'])
